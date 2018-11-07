@@ -50,9 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgedBrieQualityUpdater.cs" />
+    <Compile Include="BackstageQualityUpdater.cs" />
+    <Compile Include="DefaultProductQualityUpdater.cs" />
     <Compile Include="GildedRose.cs" />
     <Compile Include="GildedRoseShould.cs" />
+    <Compile Include="IQualityUpdater.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strategy.cs" />
+    <Compile Include="SulfurasQualityUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

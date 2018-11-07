@@ -1,6 +1,6 @@
 namespace GildedRose
 {
-    using System.Collections.Generic;
+    using System.Collections.Specialized;
 
     using NFluent;
 
@@ -76,7 +76,7 @@ namespace GildedRose
         }
 
         [Test]
-        public void BackstagePass_quality__drop_to_0_after_the_concert()
+        public void BackstagePass_quality_drop_to_0_after_the_concert()
         {
             var sellIn = 0;
             var quality = 20;
@@ -110,62 +110,46 @@ namespace GildedRose
             var maxQuality = 50;
             Check.That(item.Quality).IsEqualTo(maxQuality);
         }
-    }
 
-
-
-    class Program
-    {
-        public static void Main(string[] args)
+        [Test]
+        public void All_items_quality_and_sellIn_decrease_by_1_after_one_day()
         {
-            System.Console.WriteLine("OMGHAI!");
+            var sellIn = 10;
+            var quality = 20;
+            var items = new[]
+                            {
+                                new Item { Name = "+5 Dexterity Vest", SellIn = sellIn, Quality = quality },
+            new Item { Name = "Conjured Mana Cake", SellIn = sellIn, Quality = quality }
+                            };
+            var gildedRose = new GildedRose(items);
+            gildedRose.UpdateQuality();
 
-            IList<Item> Items = new List<Item>{
-                                                          new Item {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
-                                                          new Item {Name = "Aged Brie", SellIn = 2, Quality = 0},
-                                                          new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
-                                                          new Item {Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
-                                                          new Item {Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80},
-                                                          new Item
-                                                              {
-                                                                  Name = "Backstage passes to a TAFKAL80ETC concert",
-                                                                  SellIn = 15,
-                                                                  Quality = 20
-                                                              },
-                                                          new Item
-                                                              {
-                                                                  Name = "Backstage passes to a TAFKAL80ETC concert",
-                                                                  SellIn = 10,
-                                                                  Quality = 49
-                                                              },
-                                                          new Item
-                                                              {
-                                                                  Name = "Backstage passes to a TAFKAL80ETC concert",
-                                                                  SellIn = 5,
-                                                                  Quality = 49
-                                                              },
-                                                          // this conjured item does not work properly yet
-                                                          new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
-                                                      };
-
-            var app = new GildedRose(Items);
-
-
-            for (var i = 0; i < 31; i++)
-            {
-                System.Console.WriteLine("-------- day " + i + " --------");
-                System.Console.WriteLine("name, sellIn, quality");
-                for (var j = 0; j < Items.Count; j++)
-                {
-                    System.Console.WriteLine(Items[j].Name + ", " + Items[j].SellIn + ", " + Items[j].Quality);
-                }
-                System.Console.WriteLine("");
-                app.UpdateQuality();
-            }
-
+            Check.That(items[0].Quality).IsEqualTo(quality - 1);
+            Check.That(items[1].Quality).IsEqualTo(quality - 1);
+            Check.That(items[0].SellIn).IsEqualTo(sellIn - 1);
+            Check.That(items[1].SellIn).IsEqualTo(sellIn - 1);
         }
 
+        [Test]
+        public void testcase()
+        {
+            var sellIn = 0;
+            var quality = 50;
+            var items = new[]
+                {
+                    new Item
+                        {
+                            Name = "Sulfuras, Hand of Ragnaros",
+                            SellIn = sellIn,
+                            Quality = quality
+                        }
+                };
+
+            var gildedRose = new GildedRose(items);
+            gildedRose.UpdateQuality();
+
+            Check.That(items[0].Quality).IsEqualTo(quality);
+            Check.That(items[0].SellIn).IsEqualTo(sellIn);
+        }
     }
-
-
 }
